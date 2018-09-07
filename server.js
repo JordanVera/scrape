@@ -12,9 +12,8 @@ const db            = require('./models'),
 
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.set('views', path.join(__dirname, './public'))
-app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, './public'));
+app.set('view engine', 'pug');
 mongoose.connect("mongodb://localhost/scrape");
 
 app.get('/', function (req, res) {
