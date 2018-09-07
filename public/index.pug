@@ -7,7 +7,9 @@ html(lang='en')
     title Document
   body
     h1 Waddup
-    #articles
+    ul  
+      each article in articles
+        li= article
 
     script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
-    script(src="./logic.js")
+    script(src="/static/logic.js")

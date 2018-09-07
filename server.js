@@ -8,16 +8,18 @@ const db            = require('./models'),
       pug           = require('pug'),
       PORT          = 3000,
       path          = require('path'),
+      fs            = require('fs'),
       app           = express();
 
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, './public'));
 app.set('view engine', 'pug');
+app.use('/static', express.static(__dirname + '/public'));
 mongoose.connect("mongodb://localhost/scrape");
 
 app.get('/', function (req, res) {
-   res.render('index') 
+    res.render('index', { articles: app.get('/articles') })
 })
 
 app.get("/scrape", function (req, res) {
@@ -33,13 +35,13 @@ app.get("/scrape", function (req, res) {
             result.title = $(this)
                 .children(".headlineText")
                 .text();
-            // result.link = $(this)
-            //     .children("a")
-            //     .attr("href");
+            // result.image = $(this)
+            //     .children(".headlineSourceImage")
+            //     .children('img')
+            //     .attr("src");
 
             db.Article.create(result)
                 .then(function (dbArticle) {
-
                     console.log(dbArticle);
                 })
                 .catch(function (err) {
@@ -52,6 +54,7 @@ app.get("/scrape", function (req, res) {
     });
 });
 
+
 app.get("/articles", function(req, res) {
     db.Article.find({})
       .then(function(dbArticle) {
@@ -60,7 +63,7 @@ app.get("/articles", function(req, res) {
       .catch(function(err) {
         res.json(err);
       });
-  });
+});
 
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");

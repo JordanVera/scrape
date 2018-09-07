@@ -1,6 +1,6 @@
-$.getJSON("/articles", function(data) {
-    // For each one
-    articles.forEach(article => {
-      document.querySelector('#articles').innerHTML = article.title;
-    });
-  });
+// $.getJSON("/articles", function(data) {
+//     // For each one
+//     data.forEach(article => {
+//       document.querySelector('#articles').innerHTML += `${article.title} <br />`;
+//     });
+//   });
