@@ -19,7 +19,7 @@ app.use('/static', express.static(__dirname + '/public'));
 mongoose.connect("mongodb://localhost/scrape");
 
 app.get('/', function (req, res) {
-    res.render('index', { articles: app.get('/articles') })
+    res.render('index', { articles:db.Article.find() });
 })
 
 app.get("/scrape", function (req, res) {
@@ -54,16 +54,18 @@ app.get("/scrape", function (req, res) {
     });
 });
 
-
 app.get("/articles", function(req, res) {
     db.Article.find({})
       .then(function(dbArticle) {
         res.json(dbArticle);
+        console.log(dbArticle); // need to access this in the rendered html
       })
       .catch(function(err) {
         res.json(err);
       });
 });
+
+
 
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
