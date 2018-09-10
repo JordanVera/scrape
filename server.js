@@ -19,7 +19,7 @@ app.use('/static', express.static(__dirname + '/public'));
 mongoose.connect("mongodb://localhost/scrape");
 
 app.get('/', function (req, res) {
-    res.render('index', { articles:db.Article.find() });
+    res.render('index');
 })
 
 app.get("/scrape", function (req, res) {
@@ -28,6 +28,8 @@ app.get("/scrape", function (req, res) {
 
         const $ = cheerio.load(response.data);
 
+        let articles = [];
+
         $("tr.headlineRow").each(function (i, element) {
 
             let result = {};
@@ -35,22 +37,22 @@ app.get("/scrape", function (req, res) {
             result.title = $(this)
                 .children(".headlineText")
                 .text();
-            // result.image = $(this)
-            //     .children(".headlineSourceImage")
-            //     .children('img')
-            //     .attr("src");
+            result.link = $(this)
+                .children(".headlineText")
+                .children(".headline")
+                .children("a")
+                .attr("href");
+            result.note = null;
 
-            db.Article.create(result)
-                .then(function (dbArticle) {
-                    console.log(dbArticle);
-                })
-                .catch(function (err) {
-
-                    return res.json(err);
-                });
+            if (result.title) {
+                articles.push(result);
+            }
         });
 
-        res.send("Scrape Complete");
+        db.Article.insertMany(articles)
+            .then(function(results) {
+                res.send('scrape completed');
+        })
     });
 });
 
@@ -58,10 +60,10 @@ app.get("/articles", function(req, res) {
     db.Article.find({})
       .then(function(dbArticle) {
         res.json(dbArticle);
-        console.log(dbArticle); // need to access this in the rendered html
+        // console.log(dbArticle); // need to access this in the rendered html
       })
       .catch(function(err) {
-        res.json(err);
+        return res.json(err);
       });
 });
 

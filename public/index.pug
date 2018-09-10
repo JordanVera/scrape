@@ -1,15 +1,22 @@
 doctype html
 html(lang='en')
   head
+    title Document
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
-    title Document
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/foundation-sites@6.5.0-rc.2/dist/css/foundation-float.min.css', integrity='sha256-SXzNzz68b8cy/1oRvdP128/5VlvegrZO5QDmBiqhlQc= sha384-5EVTk1nWllg1T/XoVEd82fhnOxUhRUOquz4AyO3+M0kbhUzhruouReQWPnihRxPs sha512-y0IHToRgzE99SfoteKLXR0MUOTRPMQHwc4nmU2/Uqhu4KulOzK18RbuicuhlgzPDdj23skwxTWUv7CJs+psXig==', crossorigin='anonymous')
+    link(rel="stylesheet", href="/static/style.css")
   body
-    h1 Waddup
-    ul  
-      each article in articles
-        li= article
+    h1 Fark Scraper
+    .grid-x
+      .medium-6
+        #articles
+      .medium-6
+        #notes
+    //- ul  
+    //-   each article in articles
+    //-     li= article
 
     script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=', crossorigin='anonymous')
     script(src="/static/logic.js")
