@@ -16,7 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, './public'));
 app.set('view engine', 'pug');
 app.use('/static', express.static(__dirname + '/public'));
-mongoose.connect(process.env.MONGODB_UR || "mongodb://localhost/scrape");
+
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/scrape';
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 app.get('/', function (req, res) {
     res.render('index');
